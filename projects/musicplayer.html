@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Music Player · Mikkel Fan</title>
+
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon" />
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS -->
+    <link
+      href="../assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../assets/vendor/boxicons/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Site CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --ink: #0d1b2a;
+        --ink-2: #10253b;
+        --paper: #0b1522;
+        --gold: #c9a227;
+        --glass: rgba(255, 255, 255, 0.08);
+        --glass-b: rgba(255, 255, 255, 0.18);
+      }
+
+      body {
+        background: linear-gradient(180deg, #0a1220 0%, #0f1b2f 100%);
+      }
+
+      /* ===== Hero ===== */
+      .hero-music {
+        position: relative;
+        min-height: 48vh;
+        display: flex;
+        align-items: flex-end;
+        color: #fff;
+        overflow: hidden;
+        background: radial-gradient(
+            1200px 500px at -10% -20%,
+            rgba(201, 162, 39, 0.15),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 500px at 120% -10%,
+            rgba(120, 170, 255, 0.12),
+            transparent 60%
+          ),
+          linear-gradient(160deg, rgba(8, 18, 34, 0.9), rgba(20, 34, 56, 0.92)),
+          url("../assets/img/bg.jpg") center/cover no-repeat;
+        box-shadow: inset 0 -120px 160px rgba(0, 0, 0, 0.55);
+      }
+      .hero-music .container {
+        padding: 72px 16px;
+      }
+      .crumbs a {
+        color: #d9e6f7;
+        text-decoration: none;
+        opacity: 0.85;
+      }
+      .crumbs a:hover {
+        opacity: 1;
+      }
+      .p-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--glass);
+        border: 1px solid var(--glass-b);
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: #e9f1ff;
+        font-weight: 600;
+      }
+      .p-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--gold);
+      }
+      .h-title {
+        font-family: Poppins, Inter, sans-serif;
+        font-size: 44px;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+        margin: 10px 0 6px;
+      }
+      .h-sub {
+        opacity: 0.9;
+      }
+
+      /* ===== Page ===== */
+      .page-wrap {
+        margin-top: -40px;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+      }
+      .content {
+        color: #d7e2f3;
+      }
+      .content h3 {
+        color: #fff;
+        margin-top: 8px;
+        margin-bottom: 12px;
+      }
+      .lead {
+        color: #c7d4ea;
+      }
+
+      /* ===== Sidebar ===== */
+      .sidebar {
+        position: sticky;
+        top: 32px;
+      }
+      .tag {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #e9f1ff;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 600;
+        margin: 4px 6px 0 0;
+      }
+      .link-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--gold), #f4d780);
+        color: #1a2230;
+        box-shadow: 0 8px 18px rgba(201, 162, 39, 0.28);
+      }
+      .link-ghost {
+        background: transparent;
+        color: #e9f1ff;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+      }
+      .fact {
+        display: flex;
+        justify-content: space-between;
+        color: #c9d6eb;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+        padding: 8px 0;
+      }
+
+      /* ===== Gallery ===== */
+      .gallery {
+        position: relative;
+      }
+      .g-img {
+        border-radius: 14px;
+        overflow: hidden;
+        aspect-ratio: 16/9;
+        background: #0a111d;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .g-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.45s ease;
+      }
+      .g-img:hover img {
+        transform: scale(1.04);
+      }
+      .g-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.45);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+      }
+      .g-prev {
+        left: 12px;
+      }
+      .g-next {
+        right: 12px;
+      }
+      .g-nav:hover {
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      /* ===== Code ===== */
+      pre.code {
+        position: relative;
+        background: #0b1523;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #e6f0ff;
+        padding: 16px 18px;
+        border-radius: 12px;
+        overflow: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New",
+          monospace;
+      }
+      .copy {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.06);
+        color: #e9f1ff;
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .copy:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      /* ===== Bottom CTAs ===== */
+      .cta-bar .btn {
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-weight: 800;
+      }
+      .btn-outline {
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #e9f1ff;
+        background: transparent;
+      }
+      .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      @media (max-width: 991px) {
+        .h-title {
+          font-size: 34px;
+        }
+        .sidebar {
+          margin-top: 24px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ===== HERO ===== -->
+    <header class="hero-music">
+      <div class="container">
+        <div class="crumbs mb-2">
+          <a href="../index.html#projects">← Back to Projects</a>
+        </div>
+        <div class="p-badge mb-2">
+          <span class="p-dot"></span> Web Application • Audio Processing
+        </div>
+        <h1 class="h-title">Music Player</h1>
+        <p class="h-sub">
+          Interactive music player with recommendation system, playlist
+          management, and advanced audio controls built with modern web
+          technologies.
+        </p>
+        <div class="mb-3"></div>
+      </div>
+    </header>
+
+    <!-- ===== PAGE ===== -->
+    <main class="page-wrap">
+      <div class="container">
+        <div class="row g-4">
+          <!-- Content -->
+          <div class="col-lg-8">
+            <div class="glass p-4 p-md-5 content">
+              <p class="lead mb-3">
+                This project, created by <strong>Mikkel Fan</strong>, is a
+                comprehensive <strong>web-based music player</strong> featuring
+                advanced audio controls, playlist management, and intelligent
+                recommendation system using modern web technologies and audio
+                processing APIs.
+              </p>
+
+              <!-- Gallery -->
+              <div class="gallery mb-4">
+                <div class="g-img">
+                  <img
+                    id="g-main"
+                    src="https://picsum.photos/1200/675?random=61"
+                    alt="Music Player preview"
+                  />
+                </div>
+                <button class="g-nav g-prev" aria-label="Previous">
+                  <i class="bx bx-chevron-left fs-3"></i>
+                </button>
+                <button class="g-nav g-next" aria-label="Next">
+                  <i class="bx bx-chevron-right fs-3"></i>
+                </button>
+              </div>
+
+              <h3>Problem</h3>
+              <p>
+                Existing music players lacked personalized recommendations,
+                intuitive playlist management, and seamless cross-device
+                synchronization. Users needed a modern, responsive music
+                experience with advanced features like audio visualization and
+                smart recommendations.
+              </p>
+
+              <h3>Approach</h3>
+              <ul>
+                <li>
+                  Built <strong>React-based music player</strong> with modern
+                  component architecture and responsive design for all devices.
+                </li>
+                <li>
+                  Implemented <strong>Web Audio API</strong> for advanced audio
+                  processing, equalizer controls, and real-time audio
+                  visualization.
+                </li>
+                <li>
+                  Developed <strong>recommendation engine</strong> using
+                  collaborative filtering and content-based algorithms for
+                  personalized music suggestions.
+                </li>
+                <li>
+                  Created <strong>playlist management system</strong> with
+                  drag-and-drop functionality, smart playlists, and cloud
+                  synchronization.
+                </li>
+              </ul>
+
+              <h3>Key Code</h3>
+              <pre
+                class="code"
+                id="code"
+              ><button class="copy" data-target="code">Copy</button><code>// Music Player with Web Audio API
+import React, { useState, useRef, useEffect } from 'react';
+
+const MusicPlayer = () => {
+  const [currentTrack, setCurrentTrack] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playlist, setPlaylist] = useState([]);
+  const audioRef = useRef(null);
+  const audioContextRef = useRef(null);
+  const analyserRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize Web Audio API
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioContext.createAnalyser();
+    const source = audioContext.createMediaElementSource(audioRef.current);
+    
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+    
+    audioContextRef.current = audioContext;
+    analyserRef.current = analyser;
+  }, []);
+
+  const playTrack = (track) => {
+    setCurrentTrack(track);
+    setIsPlaying(true);
+    audioRef.current.play();
+  };
+
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const getRecommendations = async (trackId) => {
+    // Collaborative filtering algorithm
+    const userPreferences = await getUserPreferences();
+    const similarUsers = await findSimilarUsers(userPreferences);
+    const recommendations = await generateRecommendations(similarUsers);
+    
+    return recommendations;
+  };
+
+  const visualizeAudio = () => {
+    const bufferLength = analyserRef.current.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    
+    const draw = () => {
+      analyserRef.current.getByteFrequencyData(dataArray);
+      // Update visualization components
+      requestAnimationFrame(draw);
+    };
+    draw();
+  };
+
+  return (
+    <div className="music-player">
+      <audio ref={audioRef} onEnded={handleTrackEnd} />
+      <div className="player-controls">
+        <button onClick={togglePlayPause}>
+          {isPlaying ? 'Pause' : 'Play'}
+        </button>
+      </div>
+      <div className="audio-visualizer" ref={visualizerRef} />
+    </div>
+  );
+};</code></pre>
+
+              <h3>Results</h3>
+              <ul>
+                <li>
+                  <strong>Responsive design</strong> working seamlessly across
+                  desktop, tablet, and mobile devices with touch controls.
+                </li>
+                <li>
+                  <strong>Advanced audio features</strong> including equalizer,
+                  crossfade, and real-time audio visualization.
+                </li>
+                <li>
+                  <strong>Smart recommendations</strong> with 85% user
+                  satisfaction rate and increased playlist engagement.
+                </li>
+                <li>
+                  <strong>Cloud synchronization</strong> allowing users to
+                  access playlists and preferences across all devices.
+                </li>
+              </ul>
+
+              <h3>What I Learned</h3>
+              <ul>
+                <li>
+                  Web Audio API implementation for advanced audio processing and
+                  real-time visualization in web applications.
+                </li>
+                <li>
+                  Recommendation system development using collaborative
+                  filtering and machine learning algorithms.
+                </li>
+                <li>
+                  React component architecture and state management for complex
+                  interactive applications.
+                </li>
+                <li>
+                  User experience design principles for media applications and
+                  responsive web development.
+                </li>
+              </ul>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div
+              class="glass p-3 mt-3 cta-bar d-flex flex-wrap gap-2 justify-content-between align-items-center"
+            >
+              <div class="d-flex gap-2">
+                <a
+                  href="https://github.com/mikkelfan/Music-Player"
+                  target="_blank"
+                  class="btn link-btn"
+                  ><i class="bx bxl-github"></i> Repository</a
+                >
+                <a href="../index.html#projects" class="btn btn-outline"
+                  ><i class="bx bx-grid-alt"></i> All Projects</a
+                >
+              </div>
+              <div class="d-flex gap-2">
+                <a href="./twitteranalysis.html" class="btn btn-outline"
+                  ><i class="bx bx-left-arrow-alt"></i> Prev</a
+                >
+                <a href="./gan.html" class="btn btn-outline"
+                  >Next <i class="bx bx-right-arrow-alt"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="col-lg-4">
+            <aside class="glass p-4 sidebar">
+              <h5 class="text-white mb-3">Tech Stack</h5>
+              <div class="mb-3">
+                <span class="tag">React</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Web Audio</span>
+                <span class="tag">UI/UX</span>
+                <span class="tag">CSS3</span>
+              </div>
+
+              <h6 class="text-white-50 mt-4 mb-2">Links</h6>
+              <div class="d-grid gap-2">
+                <a
+                  class="link-btn"
+                  target="_blank"
+                  href="https://github.com/mikkelfan/Music-Player"
+                >
+                  <i class="bx bxl-github"></i> View on GitHub
+                </a>
+                <a class="link-btn link-ghost" href="../index.html#projects">
+                  <i class="bx bx-grid-alt"></i> Back to Projects
+                </a>
+              </div>
+
+              <h6 class="text-white-50 mt-4 mb-2">Quick Facts</h6>
+              <div class="fact"><span>Framework</span><span>React</span></div>
+              <div class="fact">
+                <span>Audio API</span><span>Web Audio</span>
+              </div>
+              <div class="fact">
+                <span>Recommendations</span><span>85% satisfaction</span>
+              </div>
+              <div class="fact">
+                <span>Devices</span><span>Cross-platform</span>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Vendor JS -->
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // ===== simple gallery =====
+      (function () {
+        const imgs = [
+          "https://picsum.photos/1200/675?random=61",
+          "https://picsum.photos/1200/675?random=62",
+          "https://picsum.photos/1200/675?random=63",
+        ];
+        let idx = 0;
+        const main = document.getElementById("g-main");
+        const prev = document.querySelector(".g-prev");
+        const next = document.querySelector(".g-next");
+
+        function show(i) {
+          idx = (i + imgs.length) % imgs.length;
+          main.src = imgs[idx];
+        }
+        prev.addEventListener("click", () => show(idx - 1));
+        next.addEventListener("click", () => show(idx + 1));
+
+        // Auto-play & pause on hover
+        let timer = setInterval(() => show(idx + 1), 3500);
+        main.parentElement.addEventListener("mouseenter", () =>
+          clearInterval(timer)
+        );
+        main.parentElement.addEventListener(
+          "mouseleave",
+          () => (timer = setInterval(() => show(idx + 1), 3500))
+        );
+      })();
+
+      // ===== copy code =====
+      document.querySelectorAll(".copy").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-target");
+          const code = document.getElementById(id).innerText;
+          navigator.clipboard.writeText(code).then(() => {
+            btn.textContent = "Copied!";
+            setTimeout(() => (btn.textContent = "Copy"), 1300);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

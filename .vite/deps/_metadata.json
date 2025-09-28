@@ -1,0 +1,54 @@
+{
+  "hash": "233d31d6",
+  "configHash": "9525f7a7",
+  "lockfileHash": "45187992",
+  "browserHash": "9bf6c071",
+  "optimized": {
+    "framer-motion": {
+      "src": "../../node_modules/framer-motion/dist/es/index.mjs",
+      "file": "framer-motion.js",
+      "fileHash": "f2873cc9",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "a3d77c71",
+      "needsInterop": true
+    },
+    "react-intersection-observer": {
+      "src": "../../node_modules/react-intersection-observer/dist/index.mjs",
+      "file": "react-intersection-observer.js",
+      "fileHash": "cf0ceafc",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "32292c3a",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "d8bbb3cd",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "ccb5d281",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "react-BnjSyJtt": {
+      "file": "react-BnjSyJtt.js",
+      "isDynamicEntry": false
+    },
+    "react-dom-DtOtxA1T": {
+      "file": "react-dom-DtOtxA1T.js",
+      "isDynamicEntry": false
+    }
+  }
+}
